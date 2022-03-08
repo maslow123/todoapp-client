@@ -1,0 +1,21 @@
+@import "./base.css";
+
+
+html,
+body,
+body > div:first-child,
+div#__next,
+div#__next > div {
+    height: 100%;
+    @apply font-sans;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    .fit {
+        min-height: calc(100vh - 88px);
+    }
+}

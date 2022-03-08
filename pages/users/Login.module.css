@@ -1,0 +1,42 @@
+.leftpane {
+    @apply bg-blue;
+}
+.parent {
+    @apply grid grid-cols-2 h-full;
+}
+.imageWrapper {
+    @apply text-center;
+}
+.caption {
+    @apply text-center text-xl text-white font-bold uppercase;
+    font-size: 1.5rem;
+}
+
+
+.rightpane {
+    @apply grid grid-rows-3 grid-flow-col gap-4;
+    border: 1px solid red;
+}
+
+.appNameWrapper {
+    @apply col-span-1 text-center self-center; 
+}
+
+.appName {
+    @apply text-2xl font-bold text-gray-400;
+}
+
+.welcomeWrapper {
+    @apply text-center text-4xl; 
+}
+
+.welcomeText {
+    @apply font-bold uppercase font-sans;
+}
+
+.loginFormWrapper {
+    border: 1px solid red;
+    @apply mt-3 text-xs;
+}
+
+
