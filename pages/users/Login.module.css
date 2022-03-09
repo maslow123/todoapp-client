@@ -1,42 +1,59 @@
-.leftpane {
-    @apply bg-blue;
-}
 .parent {
     @apply grid grid-cols-2 h-full;
 }
-.imageWrapper {
-    @apply text-center;
+
+/* Left pane */
+.leftpane {
+    @apply flex flex-col bg-blue justify-center;
+}
+.image {
+    @apply text-center align-middle ;
 }
 .caption {
-    @apply text-center text-xl text-white font-bold uppercase;
-    font-size: 1.5rem;
+    @apply xs:text-xl text-center text-3xl text-white font-bold uppercase;
+    /* font-size: 1.5rem; */
 }
 
 
+/* Right Pane */
 .rightpane {
-    @apply grid grid-rows-3 grid-flow-col gap-4;
-    border: 1px solid red;
+    height: fit-content;
+    @apply flex flex-col h-full;
 }
 
 .appNameWrapper {
-    @apply col-span-1 text-center self-center; 
+    @apply flex flex-row  items-center self-center;
+    flex-basis: 25%;
 }
 
+.appNameContent {
+}
 .appName {
-    @apply text-2xl font-bold text-gray-400;
+    @apply text-3xl font-bold text-gray-400;
 }
 
 .welcomeWrapper {
-    @apply text-center text-4xl; 
+    @apply flex flex-col items-center text-center; 
 }
 
 .welcomeText {
-    @apply font-bold uppercase font-sans;
+    @apply xs:text-lg font-bold uppercase font-sans text-gray-400 text-3xl;    
+}
+
+.invalidPassword {
+    @apply bg-red text-black text-sm mr-2 rounded w-5 py-3 block;
+    width: 92%;
+    margin-left: 30px;
 }
 
 .loginFormWrapper {
-    border: 1px solid red;
-    @apply mt-3 text-xs;
+    @apply mt-3 text-xs w-full max-w-3xl;
 }
 
+.form {
+    @apply bg-white px-8 pt-6 mb-4 self-center;
+}
 
+.registerText {
+    @apply xs:text-xs text-sm;
+}
