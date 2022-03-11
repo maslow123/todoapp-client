@@ -1,12 +1,11 @@
 import React, { Component, FormEvent, useState } from 'react';
 import s from './Login.module.css';
-import { Container, Form } from '@components/ui';
+import { Form } from '@components/ui';
 import Image from 'next/image';
 import { LoginUser } from '@components/common/types/Login';
 import { hasError } from '@lib/helper';
 import { LoginRequest, LoginResponse } from 'services/types/users';
 import { loginUser } from 'services/users';
-import { GenericErrorResponse } from 'services/types/generic';
 
 const LoginPathImage = '/images/login.png';
 

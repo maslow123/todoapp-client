@@ -4,7 +4,9 @@ module.exports = {
     "./components/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    screens: {
+    screens: {      
+      'xss': {'max': '470px'},
+      // => @media (max-width: 470px) { ... }
       'xs': {'max': '640px'},
       // => @media (max-width: 640px) { ... }
       'sm': {'min': '640px', 'max': '767px'},
@@ -21,6 +23,15 @@ module.exports = {
 
       '2xl': {'min': '1536px'},
       // => @media (min-width: 1536px) { ... }
+      // =============== FOR DEVICE ===================
+      'tablet': {'max': '640px'},
+      // => @media (max-width: 640px) { ... }
+
+      'laptop': {'max': '1024px'},
+      // => @media (max-width: 1024px) { ... }
+
+      'desktop': {'max': '1280px'},
+      // => @media (max-width: 1280px) { ... }
     },
     extend: {
       maxWidth: {

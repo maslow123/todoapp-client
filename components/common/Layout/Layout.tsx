@@ -1,20 +1,25 @@
 import { FC } from "react";
-import { Footer, Navbar } from "@components/common";
+import { Navbar } from "@components/common";
 import style from './Layout.module.css';
+import Head from "next/head";
 
 
 const Layout: FC = ({ children }) => {
 
     return (
-        <div className={style.root}>
-            <Navbar/>                
-            <main 
-                className="fit"
-            >
-                { children }
-            </main>
-            <Footer/>
-        </div>
+        <>
+            <Head>
+                <link href="../../../../public/fonts/Poppins-Black.ttf"/>
+            </Head>
+            <div className={style.root}>                        
+                <Navbar/>                
+                <main 
+                    className="fit"
+                >
+                    { children }
+                </main>
+            </div>
+        </>
     )
 }
 
