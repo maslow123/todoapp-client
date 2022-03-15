@@ -6,12 +6,8 @@ import 'keen-slider/keen-slider.min.css';
 const Noop: FC = ({ children }) => <>{children}</>;
 
 function MyApp({ Component, pageProps}: AppProps & { Component: { Layout: FC }}) {
-    const Layout = Component.Layout ?? Noop;
     return (
-
-        <Layout>
-            <Component {...pageProps} />            
-        </Layout>
+        <Component {...pageProps} />            
     )
 }
 

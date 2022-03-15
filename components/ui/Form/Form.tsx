@@ -1,4 +1,4 @@
-import { ChangeEventHandler, FC } from "react";
+import { ChangeEventHandler, FC, TextareaHTMLAttributes } from "react";
 import s from './Form.module.css';
 
 interface Props {
@@ -7,10 +7,11 @@ interface Props {
     name: string;
     type: string;
     hasError: Boolean;
-    handleChange:  ChangeEventHandler<HTMLInputElement>;
+    disabled: boolean;
+    handleChange:  ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
 };
 
-const Form:FC<Props> = ({ label, required, name, type, hasError, handleChange }) => {
+const Form:FC<Props> = ({ label, required, name, type, hasError, disabled, handleChange }) => {
     return (
         <div className="mb-6">
             <label className={s.label}>
@@ -18,14 +19,28 @@ const Form:FC<Props> = ({ label, required, name, type, hasError, handleChange })
                 {label}
                 
             </label>
-            <input 
-                className={`${s.formInput}`} 
-                style={{ borderColor: hasError && 'red' }}
-                name={name} 
-                type={type}
-                placeholder={label}
-                onChange={handleChange}
-            />
+            {
+                type === 'textarea'
+                ?
+                <textarea                
+                    disabled={disabled}
+                    className={`${s.formInput} h-11`} 
+                    style={{ borderColor: hasError && 'red' }}
+                    name={name}
+                    placeholder={label}
+                    onChange={disabled ? () => {}: handleChange}
+                />
+                :
+                <input 
+                    disabled={disabled}
+                    className={`${s.formInput}`} 
+                    style={{ borderColor: hasError && 'red' }}
+                    name={name} 
+                    type={type}
+                    placeholder={label}
+                    onChange={disabled ? () => {}: handleChange}
+                />
+            }
             {hasError && (<div className="text-left" style={{ color: 'red' }}><span className="capitalize">{name}</span> tidak boleh kosong</div>)}            
         </div>            
     );

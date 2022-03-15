@@ -1,17 +1,25 @@
 .wrapper {
-    @apply bg-red rounded shadow-lg mt-4 py-3 h-32 xs:h-36;
+    @apply rounded shadow-lg mt-4 py-3 h-32 xs:h-36;
 };
 
 .title {
-    @apply uppercase font-bold text-black text-lg xs:text-xs; 
+    @apply flex flex-row justify-between;
 };
-
+.titleText {
+    @apply uppercase font-bold text-gray-700 text-lg xs:text-xs;
+    flex-basis: 90%;
+}
+.titleIcon {
+    @apply rounded-md h-5 w-5 bg-black text-yellow flex flex-col justify-center items-center mt-1;
+    flex-basis: 10%;
+}
 .dueDate {
     @apply flex flex-row bg-green w-1/3 py-0.5 xss:w-1/2;
 };
 .dueDateIcon {
     @apply pt-0.5 px-1;
 };
+
 .dueDateTime {
     @apply text-xs px-0.5 xs:text-xs;
 }

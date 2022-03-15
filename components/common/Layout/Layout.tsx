@@ -1,10 +1,14 @@
-import { FC } from "react";
+import { FC, ReactNode } from "react";
 import { Navbar } from "@components/common";
 import style from './Layout.module.css';
 import Head from "next/head";
 
+interface Props {
+    children: ReactNode;
+    title: string;
+};
 
-const Layout: FC = ({ children }) => {
+const Layout: FC<Props> = ({ children, title }) => {
 
     return (
         <>
@@ -12,7 +16,7 @@ const Layout: FC = ({ children }) => {
                 <link href="../../../../public/fonts/Poppins-Black.ttf"/>
             </Head>
             <div className={style.root}>                        
-                <Navbar/>                
+                <Navbar title={title} />                
                 <main 
                     className="fit"
                 >

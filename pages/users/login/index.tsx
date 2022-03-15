@@ -1,4 +1,4 @@
-import React, { Component, FormEvent, useState } from 'react';
+import React, { useState } from 'react';
 import s from './Login.module.css';
 import { Form } from '@components/ui';
 import Image from 'next/image';
@@ -28,9 +28,7 @@ export default function Login() {
             errors = [...errors, 'password'];
         }
 
-        console.log(errors);
         setErrorList(errors);
-
         if (errors.length > 0) {
             return false;
         }
@@ -113,6 +111,7 @@ export default function Login() {
                         <form className={s.form} onSubmit={handleSubmit}>                        
                             {form.map((item, i) => (
                                 <Form
+                                    disabled={false}
                                     key={i}
                                     label={item.label}
                                     name={item.name}
