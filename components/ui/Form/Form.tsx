@@ -9,9 +9,10 @@ interface Props {
     hasError: Boolean;
     disabled: boolean;
     handleChange:  ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
+    errorMessage?: string;
 };
 
-const Form:FC<Props> = ({ label, required, name, type, hasError, disabled, handleChange }) => {
+const Form:FC<Props> = ({ label, required, name, type, hasError, disabled, handleChange, errorMessage }) => {
     return (
         <div className="mb-6">
             <label className={s.label}>
@@ -41,7 +42,13 @@ const Form:FC<Props> = ({ label, required, name, type, hasError, disabled, handl
                     onChange={disabled ? () => {}: handleChange}
                 />
             }
-            {hasError && (<div className="text-left" style={{ color: 'red' }}><span className="capitalize">{name}</span> tidak boleh kosong</div>)}            
+            {hasError 
+            && (
+                <div className="text-left" style={{ color: 'red' }}>
+                    <span className="capitalize">{ !errorMessage && name} </span> 
+                    {errorMessage || 'tidak boleh kosong'} 
+                </div>
+            )}            
         </div>            
     );
 };

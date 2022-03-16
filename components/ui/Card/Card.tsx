@@ -1,3 +1,4 @@
+import { color } from '@lib/color';
 import React, { FC, ReactNode } from 'react';
 import s from './Card.module.css';
 
@@ -11,7 +12,7 @@ const Card: FC<Props> = ({ children, title = 'Today', headerColor }) => {
     return (
         <div className={s.wrapper}>
             <div className={s.container}>
-                <div className={`${s.title} bg-${headerColor}`}>
+                <div className={`${s.title}`} style={{ backgroundColor: color[headerColor] }}>
                     {title}
                 </div>
                 <div className={s.content}>

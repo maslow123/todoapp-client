@@ -34,10 +34,10 @@
 }
 
 .welcomeText {
-    @apply xs:text-lg font-bold uppercase font-sans text-gray-400 text-3xl;    
+    @apply xs:text-lg font-bold uppercase font-sans text-gray-400 text-3xl;     
 }
 
-.loginFormWrapper {
+.registerFormWrapper {
     @apply mt-3 text-xs w-full max-w-3xl;
 }
 

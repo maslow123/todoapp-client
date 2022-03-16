@@ -1,3 +1,4 @@
+import { errors } from "./errors";
 import { mock } from "./mock";
 
 const splitCharacter = (char: string, maxSize: number, isTitle: boolean): string => {
@@ -27,8 +28,31 @@ const generateColor = (): string => {
     return mock.colors[randomColor];
 };
 
+const hasError = (errors: string[], key: string): Boolean => {
+    return errors?.length > 0 && errors.indexOf(key) !== -1;
+};
+
+const checkEmailFormat = (email: string): Boolean => {
+    const emailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    const valid: Boolean = email.match(emailFormat) ? true : false;
+
+    return valid;
+};
+
+const generateErrorMessage = (errorCode: string): string  => {
+    const error = errors.find(e => e.error === errorCode);
+    if (error) {
+        return error.message;
+    }
+
+    return errorCode;
+}
+
 export {
     splitCharacter,
     normalizeDate,
-    generateColor
+    generateColor,
+    hasError,
+    checkEmailFormat,
+    generateErrorMessage
 };

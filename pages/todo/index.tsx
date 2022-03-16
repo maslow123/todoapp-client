@@ -1,9 +1,9 @@
 import { Layout } from "@components/common"
 import { AddTodoRequest } from "@components/common/types/Todo";
 import { Container, Form } from "@components/ui";
-import { hasError } from "@lib/helper";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { hasError } from "util/helper";
 import { mock } from "util/mock";
 import s from './Add.module.css';
 
@@ -26,8 +26,9 @@ export default function AddTodo() {
     const handleSubmit = async (e): Promise<Boolean> => {
         e.preventDefault();
         let errors = [];
-
-        Object.keys(payload).map(item => {
+        const arrObject = Object.keys(payload);
+        
+        arrObject.map(item => {
             if (!payload[item] && item !== 'color') {
                 errors = [...errors, item];
             }

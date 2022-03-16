@@ -1,29 +1,31 @@
 import React, { useState } from 'react';
-import s from './Login.module.css';
+import s from './Register.module.css';
 import { Badge, Form } from '@components/ui';
 import Image from 'next/image';
-import { LoginRequest, LoginResponse } from 'services/types/users';
-import { loginUser } from 'services/users';
+import { RegisterUserRequest, RegisterUserResponse } from 'services/types/users';
+import { registerUser } from 'services/users';
 import { checkEmailFormat, generateErrorMessage, hasError } from 'util/helper';
 import Link from 'next/link';
 
-const LoginPathImage = '/images/login.png';
+const image = '/images/register.png';
 
-export default function Login() {
-    const [payload, setPayload] = useState<LoginRequest>({
+export default function Register() {
+    const [payload, setPayload] = useState<RegisterUserRequest>({
+        name: '',
+        address: '',
         email: '',
-        password: ''
+        password: '',        
+        pic: 'example.jpg'
     });
     const [errorList, setErrorList] = useState<string[]>(null);
-    const [errorMessage, setErrorMessage] = useState<string>('');
-    const [invalid, setInvalid] = useState<Boolean>(false);
     const [invalidEmailFormat, setInvalidEmailFormat] = useState<Boolean>(false);
+    const [showBadge, setShowBadge] = useState<Boolean>(false);
+    const [badgeMessage, setBadgeMessage] = useState<string>('');
+    const [badgeColor, setBadgeColor] = useState<string>();
 
-    const handleSubmit = async (e): Promise<Boolean> => {
-        e.preventDefault();
-        let error = '';
-        let errors = [];
+    const handleValidate = () => {
         const key = Object.keys(payload);
+        let errors = [];      
 
         key.map(item => {
             let isError = false;
@@ -36,24 +38,28 @@ export default function Login() {
                 errors = [...errors, item];
             }
         });
+        
+        setErrorList([...errors]);        
+        return errors.length > 0 
+    };
 
-        setErrorList(errors);
-        if (errors.length > 0) {
-            return false;
+    const handleSubmit = async (e): Promise<Boolean> => {
+        e.preventDefault();       
+        let message = 'Kamu berhasil mendaftar. Ayo login sekarang.';  
+        
+        const validate = handleValidate();        
+        if (validate) { return false };
+
+        const resp: RegisterUserResponse = await registerUser(payload);                
+        let badge = 'success';
+        if (resp.error?.length > 0) {
+            badge = 'error';
+            message = generateErrorMessage(resp.error);                    
         }
 
-        const resp: LoginResponse = await loginUser(payload);
-        let isValid = false;
-        if (resp.error) {
-            isValid = true;
-            error = generateErrorMessage(resp.error);
-        }
-
-        setErrorMessage(error);
-        setInvalid(isValid);
-        if (error) { return false };
-
-        return true
+        setBadgeColor(badge);
+        setBadgeMessage(message);
+        setShowBadge(true);
     };
 
     const handleChange = (evt): void => {
@@ -68,7 +74,12 @@ export default function Login() {
 
     const form = [
         {
-            label: 'Email',
+            label: 'Nama Lengkap',
+            name: 'name',
+            type: 'text'
+        },
+        {
+            label: 'Username atau email',
             name: 'email',
             type: 'text'
         },
@@ -76,6 +87,11 @@ export default function Login() {
             label: 'Password',
             name: 'password',
             type: 'password'
+        },
+        {
+            label: 'Alamat',
+            name: 'address',
+            type: 'textarea'
         }
     ];
 
@@ -86,7 +102,7 @@ export default function Login() {
                     <Image
                         className={s.placeholderImage}
                         alt="login"
-                        src={LoginPathImage}
+                        src={image}
                         layout="intrinsic"
                         quality={100}
                         width={500}
@@ -94,7 +110,7 @@ export default function Login() {
                     />
                 </div>
                 <div className={s.caption}>
-                    <span>Mari buat TODO, agar pekerjaan menjadi lebih mudah</span>
+                    <span>Daftar yuk, supaya bisa nikmatin fiturnya</span>
                 </div>
             </div>
             <div className={s.rightpane}>
@@ -102,11 +118,9 @@ export default function Login() {
                     <span className={s.appName}>TODO APP</span>                                    
                 </div>
                 <div className={s.welcomeWrapper}>
-                    <span className={s.welcomeText}>Selamat datang di Todoapp</span>                
-                    <div className={s.loginFormWrapper}>   
-                        {invalid && (
-                            <Badge caption={errorMessage} color="error"/>
-                        )}       
+                    <span className={s.welcomeText}>Daftar</span>  
+                    {showBadge && ( <Badge caption={badgeMessage} color={badgeColor}/> )}              
+                    <div className={s.registerFormWrapper}>                           
                         <form className={s.form} onSubmit={handleSubmit}>                        
                             {form.map((item, i) => (
                                 <Form
@@ -118,24 +132,20 @@ export default function Login() {
                                     required
                                     handleChange={handleChange}
                                     hasError={hasError(errorList, item.name)}
-                                    errorMessage={item.name === 'username' && invalidEmailFormat ? 'Kesalahan pada format Email' : '' }
+                                    errorMessage={item.name === 'email' && invalidEmailFormat ? 'Kesalahan pada format Email' : '' }
                                 />
-                            ))}
-                            <div className="text-right pb-4">
-                                Lupa Password?
-                            </div>
+                            ))}                            
 
                             <button className="bg-red rounded-full py-2 px-5 h-10 mb-3">
                                 <span className="uppercase text-black tracking-widest">
-                                    Login
+                                    Daftar
                                 </span>
                             </button><br/>
                         </form>
-
                         <span className={s.registerText}>
-                            Belum punya akun? 
-                            <Link href={"/users/register"}>
-                                <a href="#"> Daftar di sini</a>
+                            Sudah punya akun? 
+                            <Link href={"/users/login"}>
+                                <a href="#"> Login di sini</a>
                             </Link>
                         </span>
                     </div>

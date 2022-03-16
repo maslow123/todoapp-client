@@ -19,3 +19,15 @@ export interface LoginResponse {
     user: User;
     error: string;
 };
+
+export interface RegisterUserRequest {
+    name: string;
+    email: string;
+    password: string;
+    address: string;
+    pic: string;
+};
+
+export interface RegisterUserResponse extends RegisterUserRequest {
+    error: string;
+}

@@ -3,6 +3,6 @@
 }
 
 .formInput {
-    @apply xs:text-xs text-sm shadow appearance-none border rounded w-full h-12 py-2 px-3 text-gray-700 border-b border-none hover:border-teal-700;
-    /* @apply sm:text-xs; */
+    @apply xs:text-xs text-sm shadow appearance-none border rounded w-full h-12 py-2 px-3 text-gray-700 border-b 
+        hover:border-teal-700;
 }
