@@ -46,6 +46,23 @@ const generateErrorMessage = (errorCode: string): string  => {
     }
 
     return errorCode;
+};
+const validate = (payload: any ): any => {
+    const key = Object.keys(payload);
+    let errors = [];
+
+    key.map(prop => {
+        let isError = false;
+        if (payload[prop].length < 1) {
+            isError = true;
+            errors = [...errors, prop];
+        }
+        if (prop === 'email' && !isError && !checkEmailFormat(payload[prop])) {                
+            errors = [...errors, 'invalid-format-email'];
+        }
+    });
+
+    return errors;
 }
 
 export {
@@ -54,5 +71,6 @@ export {
     generateColor,
     hasError,
     checkEmailFormat,
-    generateErrorMessage
+    generateErrorMessage,
+    validate
 };

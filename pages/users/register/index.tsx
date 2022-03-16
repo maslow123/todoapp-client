@@ -4,7 +4,7 @@ import { Badge, Form } from '@components/ui';
 import Image from 'next/image';
 import { RegisterUserRequest, RegisterUserResponse } from 'services/types/users';
 import { registerUser } from 'services/users';
-import { checkEmailFormat, generateErrorMessage, hasError } from 'util/helper';
+import { checkEmailFormat, generateErrorMessage, hasError, validate } from 'util/helper';
 import Link from 'next/link';
 
 const image = '/images/register.png';
@@ -47,8 +47,16 @@ export default function Register() {
         e.preventDefault();       
         let message = 'Kamu berhasil mendaftar. Ayo login sekarang.';  
         
-        const validate = handleValidate();        
-        if (validate) { return false };
+        // const validate = handleValidate();        
+        // if (validate) { return false };
+        const errors = validate(payload);
+        const invalidEmail = errors.find(message => message === 'invalid-format-email');
+        console.log(errors);
+        if (invalidEmail) {
+            setInvalidEmailFormat(true);
+        }
+        setErrorList([...errors]);        
+        if (errors.length > 0) { return false };   
 
         const resp: RegisterUserResponse = await registerUser(payload);                
         let badge = 'success';
@@ -118,7 +126,7 @@ export default function Register() {
                     <span className={s.appName}>TODO APP</span>                                    
                 </div>
                 <div className={s.welcomeWrapper}>
-                    <span className={s.welcomeText}>Daftar</span>  
+                    <span className={s.welcomeText}>Daftar {invalidEmailFormat.toString()}</span>  
                     {showBadge && ( <Badge caption={badgeMessage} color={badgeColor}/> )}              
                     <div className={s.registerFormWrapper}>                           
                         <form className={s.form} onSubmit={handleSubmit}>                        
