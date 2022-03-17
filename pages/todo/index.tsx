@@ -23,7 +23,7 @@ export default function AddTodo() {
         // here
     }, [])
 
-    const handleSubmit = async (e): Promise<Boolean> => {
+    const handleSubmit = async (e): Promise<boolean> => {
         e.preventDefault();
         let errors = [];
         const arrObject = Object.keys(payload);

@@ -29,6 +29,14 @@ const generateColor = (): string => {
 };
 
 const hasError = (errors: string[], key: string): Boolean => {
+    
+    const invalidEmail = (errors?.length > 0 && errors.find(err => err !== 'email') && errors.find(err => err === 'invalid-format-email')) 
+                        ? true 
+                        : false;
+
+    if(key === 'email' && invalidEmail) {
+        return invalidEmail;
+    }
     return errors?.length > 0 && errors.indexOf(key) !== -1;
 };
 

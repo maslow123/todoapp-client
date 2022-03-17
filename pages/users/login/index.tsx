@@ -4,8 +4,9 @@ import { Badge, Form } from '@components/ui';
 import Image from 'next/image';
 import { LoginRequest, LoginResponse } from 'services/types/users';
 import { loginUser } from 'services/users';
-import { checkEmailFormat, generateErrorMessage, hasError } from 'util/helper';
+import { generateErrorMessage, hasError, validate } from 'util/helper';
 import Link from 'next/link';
+import Cookies from 'js-cookie';
 
 const LoginPathImage = '/images/login.png';
 
@@ -14,35 +15,30 @@ export default function Login() {
         email: '',
         password: ''
     });
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     const [errorList, setErrorList] = useState<string[]>(null);
     const [errorMessage, setErrorMessage] = useState<string>('');
-    const [invalid, setInvalid] = useState<Boolean>(false);
-    const [invalidEmailFormat, setInvalidEmailFormat] = useState<Boolean>(false);
-
-    const handleSubmit = async (e): Promise<Boolean> => {
+    const [invalid, setInvalid] = useState<boolean>(false);
+    const [invalidEmailFormat, setInvalidEmailFormat] = useState<boolean>(false);
+    
+    const handleSubmit = async (e): Promise<boolean> => {
         e.preventDefault();
         let error = '';
-        let errors = [];
-        const key = Object.keys(payload);
-
-        key.map(item => {
-            let isError = false;
-            if (!payload[item]) {
-                isError = true;
-                errors = [...errors, item];
-            }
-            if (item === 'email' && !isError && !checkEmailFormat(payload[item])) {
-                setInvalidEmailFormat(true);                
-                errors = [...errors, item];
-            }
-        });
+        const errors = validate(payload);
+        const invalidEmail = errors.find(err => err === 'invalid-format-email');
+        if (invalidEmail) {
+            setInvalidEmailFormat(true);
+        }
 
         setErrorList(errors);
         if (errors.length > 0) {
             return false;
         }
 
-        const resp: LoginResponse = await loginUser(payload);
+        setIsLoading(true);
+        const resp: LoginResponse = await loginUser(payload);        
+        setIsLoading(false);
+
         let isValid = false;
         if (resp.error) {
             isValid = true;
@@ -52,8 +48,8 @@ export default function Login() {
         setErrorMessage(error);
         setInvalid(isValid);
         if (error) { return false };
-
-        return true
+        Cookies.set('token', resp.access_token);
+        
     };
 
     const handleChange = (evt): void => {
@@ -118,14 +114,14 @@ export default function Login() {
                                     required
                                     handleChange={handleChange}
                                     hasError={hasError(errorList, item.name)}
-                                    errorMessage={item.name === 'username' && invalidEmailFormat ? 'Kesalahan pada format Email' : '' }
+                                    errorMessage={item.name === 'email' && invalidEmailFormat ? 'Kesalahan pada format Email' : '' }
                                 />
                             ))}
                             <div className="text-right pb-4">
                                 Lupa Password?
                             </div>
 
-                            <button className="bg-red rounded-full py-2 px-5 h-10 mb-3">
+                            <button className="bg-red rounded-full py-2 px-5 h-10 mb-3" disabled={isLoading}>
                                 <span className="uppercase text-black tracking-widest">
                                     Login
                                 </span>

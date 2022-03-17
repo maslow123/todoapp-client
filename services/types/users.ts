@@ -30,4 +30,9 @@ export interface RegisterUserRequest {
 
 export interface RegisterUserResponse extends RegisterUserRequest {
     error: string;
-}
+};
+
+export interface MeResponse {
+    username: string;
+    error: string;
+};

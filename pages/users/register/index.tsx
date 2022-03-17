@@ -4,7 +4,7 @@ import { Badge, Form } from '@components/ui';
 import Image from 'next/image';
 import { RegisterUserRequest, RegisterUserResponse } from 'services/types/users';
 import { registerUser } from 'services/users';
-import { checkEmailFormat, generateErrorMessage, hasError, validate } from 'util/helper';
+import { generateErrorMessage, hasError, validate } from 'util/helper';
 import Link from 'next/link';
 
 const image = '/images/register.png';
@@ -17,48 +17,29 @@ export default function Register() {
         password: '',        
         pic: 'example.jpg'
     });
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     const [errorList, setErrorList] = useState<string[]>(null);
-    const [invalidEmailFormat, setInvalidEmailFormat] = useState<Boolean>(false);
-    const [showBadge, setShowBadge] = useState<Boolean>(false);
+    const [invalidEmailFormat, setInvalidEmailFormat] = useState<boolean>(false);
+    const [showBadge, setShowBadge] = useState<boolean>(false);
     const [badgeMessage, setBadgeMessage] = useState<string>('');
     const [badgeColor, setBadgeColor] = useState<string>();
 
-    const handleValidate = () => {
-        const key = Object.keys(payload);
-        let errors = [];      
-
-        key.map(item => {
-            let isError = false;
-            if (!payload[item]) {
-                isError = true;
-                errors = [...errors, item];
-            }
-            if (item === 'email' && !isError && !checkEmailFormat(payload[item])) {
-                setInvalidEmailFormat(true);                
-                errors = [...errors, item];
-            }
-        });
-        
-        setErrorList([...errors]);        
-        return errors.length > 0 
-    };
-
-    const handleSubmit = async (e): Promise<Boolean> => {
+    const handleSubmit = async (e): Promise<boolean> => {
         e.preventDefault();       
-        let message = 'Kamu berhasil mendaftar. Ayo login sekarang.';  
-        
-        // const validate = handleValidate();        
-        // if (validate) { return false };
+        let message = 'Kamu berhasil mendaftar. Ayo login sekarang.';          
         const errors = validate(payload);
         const invalidEmail = errors.find(message => message === 'invalid-format-email');
-        console.log(errors);
         if (invalidEmail) {
             setInvalidEmailFormat(true);
         }
+        
         setErrorList([...errors]);        
         if (errors.length > 0) { return false };   
 
-        const resp: RegisterUserResponse = await registerUser(payload);                
+        setIsLoading(true);
+        const resp: RegisterUserResponse = await registerUser(payload);   
+        setIsLoading(false);
+
         let badge = 'success';
         if (resp.error?.length > 0) {
             badge = 'error';
@@ -144,7 +125,7 @@ export default function Register() {
                                 />
                             ))}                            
 
-                            <button className="bg-red rounded-full py-2 px-5 h-10 mb-3">
+                            <button className="bg-red rounded-full py-2 px-5 h-10 mb-3" disabled={isLoading}>
                                 <span className="uppercase text-black tracking-widest">
                                     Daftar
                                 </span>
