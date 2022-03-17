@@ -107,7 +107,7 @@ export default function Register() {
                     <span className={s.appName}>TODO APP</span>                                    
                 </div>
                 <div className={s.welcomeWrapper}>
-                    <span className={s.welcomeText}>Daftar {invalidEmailFormat.toString()}</span>  
+                    <span className={s.welcomeText}>Daftar</span>  
                     {showBadge && ( <Badge caption={badgeMessage} color={badgeColor}/> )}              
                     <div className={s.registerFormWrapper}>                           
                         <form className={s.form} onSubmit={handleSubmit}>                        
