@@ -1,9 +1,10 @@
 import { Layout } from "@components/common"
 import { AddTodoRequest } from "@components/common/types/Todo";
 import { Container, Form } from "@components/ui";
+import { color } from "@lib/color";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { hasError } from "util/helper";
+import { hasError, validate } from "util/helper";
 import { mock } from "util/mock";
 import s from './Add.module.css';
 
@@ -12,10 +13,12 @@ export default function AddTodo() {
  
     const [action] = useState<string | string[]>(router.query.action);
     const [payload, setPayload] = useState<AddTodoRequest>({
-        color: '',
-        deadline: null,
+        color: color.blue,
+        date: null,
         title: '',
-        content: ''
+        content: '',
+        is_priority: false,
+        category_id: 0
     });
     const [errorList, setErrorList] = useState<string[]>(null);
 
@@ -25,22 +28,24 @@ export default function AddTodo() {
 
     const handleSubmit = async (e): Promise<boolean> => {
         e.preventDefault();
-        let errors = [];
-        const arrObject = Object.keys(payload);
+        const skipErrorField = ['color'];
+        const errors = validate(payload, skipErrorField);
         
-        arrObject.map(item => {
-            if (!payload[item] && item !== 'color') {
-                errors = [...errors, item];
-            }
-        });
-
         setErrorList(errors);
         return true;
     }
     const handleChange = (evt): void => {
-        const value = evt.target.value;
+        if (evt?.type && evt.type === 'category') {
+            setPayload({
+                ...payload,
+                category_id: evt.id
+            });
+            return
+        }
+
         const name = evt.target.name;
-        
+        let value = evt.target.checked !== undefined ? evt.target.checked : evt.target.value;
+                        
         setPayload({
             ...payload,
             [name]: value
@@ -60,20 +65,30 @@ export default function AddTodo() {
 
     const form = [
         {
-            label: 'Deadline',
-            name: 'deadline',
+            label: 'Batas Waktu',
+            name: 'date',
             type: 'date'
         },
         {
-            label: 'Title',
+            label: 'Judul',
             name: 'title',
             type: 'text'
         },
         {
-            label: 'Content',
+            label: 'Isi',
             name: 'content',
             type: 'textarea'
         },
+        {
+            label: 'Kategori',
+            name: 'category_id',
+            type: 'select'
+        },
+        {
+            label: 'Prioritas',
+            name: 'is_priority',
+            type: 'checkbox'
+        }
     ];
 
     return (
@@ -101,7 +116,7 @@ export default function AddTodo() {
                                 label={f.label}
                                 name={f.name}
                                 type={f.type}
-                                required
+                                required={f.type !== 'checkbox'}
                                 handleChange={handleChange}
                                 hasError={hasError(errorList, f.name)}
                             />

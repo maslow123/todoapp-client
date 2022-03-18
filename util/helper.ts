@@ -55,18 +55,21 @@ const generateErrorMessage = (errorCode: string): string  => {
 
     return errorCode;
 };
-const validate = (payload: any ): any => {
+const validate = (payload: any, noError: any = [] ): any => {
     const key = Object.keys(payload);
     let errors = [];
 
     key.map(prop => {
-        let isError = false;
-        if (payload[prop].length < 1) {
-            isError = true;
-            errors = [...errors, prop];
-        }
-        if (prop === 'email' && !isError && !checkEmailFormat(payload[prop])) {                
-            errors = [...errors, 'invalid-format-email'];
+        const skipError = noError.find(p => p === prop);
+        if (skipError === undefined) {
+            let isError = false;
+            if (payload[prop]?.length < 1 || payload[prop] === null) {
+                isError = true;
+                errors = [...errors, prop];
+            }
+            if (prop === 'email' && !isError && !checkEmailFormat(payload[prop])) {                
+                errors = [...errors, 'invalid-format-email'];
+            }
         }
     });
 

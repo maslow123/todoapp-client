@@ -23,8 +23,21 @@
 .dueDateTime {
     @apply text-xs px-0.5 xs:text-xs;
 }
+.contentWrapper {
+    @apply flex flex-row justify-between;
+    height: 70px;
+}
 .content {
     @apply text-sm xs:text-xs;
+}
+.checkboxWrapper {
+    @apply self-end mb-3;
+}
+.checkbox {
+    @apply h-5 w-5;
+}
+.checkmark {
+    @apply h-5 w-5;
 }
 .noTodo {
     @apply flex flex-col items-center;

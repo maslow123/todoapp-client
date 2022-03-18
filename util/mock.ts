@@ -4,7 +4,7 @@ const mock: Record<string, any> = {
             today: [
                 {
                     title: 'Title 1 Title 1Title 1Title 1Title 1Title 1Title 1',
-                    content: 'Today 1',
+                    content: 'Today 1 Today 1Today 1Today 1Today 1Today 1Today 1Today 1Today 1Today 1Today 1Today 1Today 1Today 1Today 1Today 1Today 1Today 1',
                     date: new Date(),
                     color: ''
                 },

@@ -14,8 +14,8 @@ const LoginPathImage = '/images/login.png';
 export default function Login() {
     const router = useRouter();
     const [payload, setPayload] = useState<LoginRequest>({
-        email: '',
-        password: ''
+        email: 'maslownr@gmail.com',
+        password: '@Aa89930548'
     });
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [errorList, setErrorList] = useState<string[]>(null);
@@ -50,8 +50,8 @@ export default function Login() {
         setErrorMessage(error);
         setInvalid(isValid);
         if (error) { return false };
-        Cookies.set('token', resp.access_token);
-        router.push('/users/dashboard');
+        await Cookies.set('token', resp.access_token);
+        router.push('/users/dashboard', null, { shallow: true });
         
     };
 

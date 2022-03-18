@@ -26,7 +26,7 @@ const CardContent: FC<Props> = ({ contents: data, isToday }) => {
                                 <Container>
                                     <div className={s.title}>
                                         <span className={s.titleText}>
-                                            {splitCharacter(item.title, 30, true)}
+                                            {splitCharacter(item.title, 20, true)}
                                         </span>
                                         <button className={s.titleIcon}>
                                             <PencilIcon  className="w-4 h-4"/>
@@ -40,10 +40,16 @@ const CardContent: FC<Props> = ({ contents: data, isToday }) => {
                                             <p>{normalizeDate(item.date, isToday)}</p>
                                         </div>
                                     </div>
-                                    <div className={s.content}>
-                                        <p>
-                                            {splitCharacter(item.content, 100, false)}
-                                        </p>
+                                    <div className={s.contentWrapper}>
+                                        <div className={s.content}>
+                                            <p>
+                                                {splitCharacter(item.content, 35, false)}
+                                            </p>
+                                        </div>
+                                        <div className={s.checkboxWrapper}>
+                                            <input type="checkbox" className={s.checkbox}/>
+                                            <span className={s.checkmark}></span>
+                                        </div>
                                     </div>
                                 </Container>
                             </div>
