@@ -11,9 +11,9 @@ const splitCharacter = (char: string, maxSize: number, isTitle: boolean): string
     return char;
 };
 
-const normalizeDate = (date: Date, isToday: Boolean): string => {
-    const dateString = date.toLocaleDateString();
-    const timeString = date.toLocaleTimeString();
+const normalizeDate = (date: string, isToday: Boolean): string => {
+    const dateString = new Date(date).toLocaleDateString();
+    const timeString = new Date(date).toLocaleTimeString();
 
     if (!isToday) {
         return dateString;

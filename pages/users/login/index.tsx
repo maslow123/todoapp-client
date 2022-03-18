@@ -7,10 +7,12 @@ import { loginUser } from 'services/users';
 import { generateErrorMessage, hasError, validate } from 'util/helper';
 import Link from 'next/link';
 import Cookies from 'js-cookie';
+import { useRouter } from 'next/router';
 
 const LoginPathImage = '/images/login.png';
 
 export default function Login() {
+    const router = useRouter();
     const [payload, setPayload] = useState<LoginRequest>({
         email: '',
         password: ''
@@ -49,6 +51,7 @@ export default function Login() {
         setInvalid(isValid);
         if (error) { return false };
         Cookies.set('token', resp.access_token);
+        router.push('/users/dashboard');
         
     };
 

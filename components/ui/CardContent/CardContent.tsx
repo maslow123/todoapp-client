@@ -3,52 +3,66 @@ import Container from '../Container';
 import s from './CardContent.module.css';
 import { CalendarIcon, PencilIcon } from '@heroicons/react/solid';
 import { generateColor, normalizeDate, splitCharacter } from 'util/helper';
-
-interface Data {
-    title: string;
-    content: string;
-    date: Date;
-    color: string;
-};
+import { Todo } from 'services/types/todos';
+import Image from 'next/image';
 
 interface Props {
-    contents: Data[];
+    contents: Todo[];
     isToday: Boolean;
 }
 
-const CardContent: FC<Props> = ({ contents: data, isToday }) => {   
+const CardContent: FC<Props> = ({ contents: data, isToday }) => {      
+    const NoTodoImage = '/images/no-todo.png'; 
+
     return (
         <>
             {
-                data.map((item, i) => (
-                    <Container key={i}>
-                        <div className={s.wrapper} style={{ backgroundColor: item.color || generateColor()}}>
-                            <Container>
-                                <div className={s.title}>
-                                    <span className={s.titleText}>
-                                        {splitCharacter(item.title, 30, true)}
-                                    </span>
-                                    <button className={s.titleIcon}>
-                                        <PencilIcon  className="w-4 h-4"/>
-                                    </button>                                    
-                                </div>
-                                <div className={s.dueDate}>                        
-                                    <div className={s.dueDateIcon}>
-                                        <CalendarIcon  className="w-3 h-3"/>
+                data.length > 0
+                ?
+                (
+                    data.map((item, i) => (
+                        <Container key={i}>
+                            <div className={s.wrapper} style={{ backgroundColor: item.color || generateColor()}}>
+                                <Container>
+                                    <div className={s.title}>
+                                        <span className={s.titleText}>
+                                            {splitCharacter(item.title, 30, true)}
+                                        </span>
+                                        <button className={s.titleIcon}>
+                                            <PencilIcon  className="w-4 h-4"/>
+                                        </button>                                    
                                     </div>
-                                    <div className={s.dueDateTime}>
-                                        <p>{normalizeDate(item.date, isToday)}</p>
+                                    <div className={s.dueDate}>                        
+                                        <div className={s.dueDateIcon}>
+                                            <CalendarIcon  className="w-3 h-3"/>
+                                        </div>
+                                        <div className={s.dueDateTime}>
+                                            <p>{normalizeDate(item.date, isToday)}</p>
+                                        </div>
                                     </div>
-                                </div>
-                                <div className={s.content}>
-                                    <p>
-                                        {splitCharacter(item.content, 100, false)}
-                                    </p>
-                                </div>
-                            </Container>
-                        </div>
-                    </Container>
-                ))
+                                    <div className={s.content}>
+                                        <p>
+                                            {splitCharacter(item.content, 100, false)}
+                                        </p>
+                                    </div>
+                                </Container>
+                            </div>
+                        </Container>
+                    ))
+                )
+                :
+                (
+                   <div className={s.noTodo}>
+                        <Image 
+                            src={NoTodoImage}
+                            height={300}
+                            width={300}
+                        />
+                        <span className={s.noTodoText}>
+                            Hebat! kamu telah menyelesaikan semua TODO hari ini !
+                        </span>
+                   </div>
+                )
             }
         </>
     )

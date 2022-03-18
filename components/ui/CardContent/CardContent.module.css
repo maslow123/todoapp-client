@@ -26,3 +26,9 @@
 .content {
     @apply text-sm xs:text-xs;
 }
+.noTodo {
+    @apply flex flex-col items-center;
+}
+.noTodoText {
+    @apply text-lg text-gray-500 font-bold text-center tracking-wide;
+}
