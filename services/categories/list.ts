@@ -1,8 +1,10 @@
 import { headers } from "services/headers";
 import { ListCategoryResponse } from "services/types/categories";
+import { getToken } from "util/helper";
 
 const listCategory = async (): Promise<ListCategoryResponse[] | ListCategoryResponse> => {
     try {
+        getToken();
         const data = await fetch('http://localhost:8080/categories?page_id=1&page_size=5', {
             method: 'GET',
             ...headers

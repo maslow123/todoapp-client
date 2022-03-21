@@ -5,9 +5,9 @@ import Image from 'next/image';
 import { LoginRequest, LoginResponse } from 'services/types/users';
 import { loginUser } from 'services/users';
 import { generateErrorMessage, hasError, validate } from 'util/helper';
+import { useRouter } from 'next/router';
 import Link from 'next/link';
 import Cookies from 'js-cookie';
-import { useRouter } from 'next/router';
 
 const LoginPathImage = '/images/login.png';
 

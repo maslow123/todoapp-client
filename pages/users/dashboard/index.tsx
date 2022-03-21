@@ -43,14 +43,14 @@ export default function Dashboard() {
                     <Container>
                         <FAB/>
                         <div className={s.card}>
-                            <Card title={'Today'} headerColor={'green'}>
+                            <Card title={'Hari ini'} headerColor={'green'}>
                                 <CardContent 
                                     contents={todo.today} 
                                     isToday={true} 
                                     success={handleMarkAsComplete}
                                     section="today"/>                        
                             </Card>
-                            <Card title={'Upcoming'} headerColor={'yellow'}>
+                            <Card title={'Mendatang'} headerColor={'yellow'}>
                                 <CardContent 
                                     contents={todo.upcoming} 
                                     isToday={false} 
@@ -58,7 +58,7 @@ export default function Dashboard() {
                                     section="upcoming"
                                 />                        
                             </Card>
-                            <Card title={'Done'} headerColor={'blue'}>
+                            <Card title={'Selesai'} headerColor={'blue'}>
                                 <CardContent 
                                     contents={todo.done} 
                                     isToday={false} 

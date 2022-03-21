@@ -1,5 +1,7 @@
 import { errors } from "./errors";
 import { mock } from "./mock";
+import Cookies from 'js-cookie';
+import { headers } from "services/headers";
 
 const splitCharacter = (char: string, maxSize: number, isTitle: boolean): string => {
     if (char.length > maxSize) {
@@ -74,6 +76,11 @@ const validate = (payload: any, noError: any = [] ): any => {
     });
 
     return errors;
+};
+
+const getToken = () => {
+    const token = Cookies.get('token');
+    headers.headers.authorization = `Bearer ${token}`;
 }
 
 export {
@@ -83,5 +90,6 @@ export {
     hasError,
     checkEmailFormat,
     generateErrorMessage,
-    validate
+    validate,
+    getToken
 };

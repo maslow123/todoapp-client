@@ -1,8 +1,10 @@
 import { headers } from "services/headers";
 import { TodoUpdateResponse } from "services/types/todos";
+import { getToken } from "util/helper";
 
 const markAsCompleteTodo = async (todoID: number): Promise<TodoUpdateResponse> => {
     try {
+        getToken();
         const data = await fetch(`http://localhost:8080/todo/${todoID}`, {
             method: 'PUT',
             ...headers

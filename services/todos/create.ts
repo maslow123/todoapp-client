@@ -1,8 +1,10 @@
 import { headers } from "services/headers";
 import { TodoCreateRequest, TodoCreateResponse } from "services/types/todos";
+import { getToken } from "util/helper";
 
 const createTodo = async (payload: TodoCreateRequest): Promise<TodoCreateResponse> => {
     try {
+        getToken(); 
         const data = await fetch('http://localhost:8080/todo', {
             method: 'POST',
             body: JSON.stringify(payload),

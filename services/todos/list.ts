@@ -1,8 +1,10 @@
 import { headers } from "services/headers";
 import { TodoListResponse } from "services/types/todos";
+import { getToken } from "util/helper";
 
 const listTodo = async (): Promise<TodoListResponse> => {
     try {
+        getToken(); 
         const data = await fetch('http://localhost:8080/todo?page_id=1&page_size=20', {
             method: 'GET',
             ...headers

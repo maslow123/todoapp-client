@@ -5,6 +5,7 @@ import s from "./Navbar.module.css";
 import Image from "next/image";
 import { ArrowLeftIcon } from "@heroicons/react/solid";
 import { useRouter } from "next/router";
+import Cookies from 'js-cookie';
 
 interface Props {
     title: string;
@@ -14,6 +15,10 @@ const Navbar: FC<Props> = ({ title }) => {
     const router = useRouter();
     const goBack = () => {
         router.back();
+    };
+    const logout = () => {
+        Cookies.remove('token');
+        router.push('/users/login');
     }
     return (
         <div className="bg-red">
@@ -34,7 +39,10 @@ const Navbar: FC<Props> = ({ title }) => {
                         <span>{title}</span>    
                     </div>
                     <div className="flex flex-1 justify-end space-x-8 pt-3">
-                        <div className={s.image} >                    
+                        <div 
+                            className={s.image} 
+                            onClick={logout}
+                        >                    
                             <Image
                                 src={'/images/avatar.png'}
                                 objectFit="cover"

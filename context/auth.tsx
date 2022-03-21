@@ -25,11 +25,11 @@ export default function AuthProvider({ children }) {
 
             setLoading(false)
             if (user.error || !token) {
-                router.push('/users/login');
-                return
+                router.push('/users/login', null, { shallow: true });                
+                return;
             }            
         }
-        loadUserFromCookies()
+        loadUserFromCookies();
     }, [])
 
     return (
