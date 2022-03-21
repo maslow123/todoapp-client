@@ -11,9 +11,11 @@ interface Props {
     disabled: boolean;
     handleChange:  ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
     errorMessage?: string;
+    value?: string | number | readonly string[];
+    isChecked?: boolean;
 };
 
-const Form:FC<Props> = ({ label, required, name, type, hasError, disabled, handleChange, errorMessage }) => {
+const Form:FC<Props> = ({ label, required, name, type, hasError, disabled, handleChange, errorMessage, value, isChecked }) => {
 
     const generateForm = () => {
         switch(type) {
@@ -29,6 +31,7 @@ const Form:FC<Props> = ({ label, required, name, type, hasError, disabled, handl
                         type={type}
                         placeholder={label}
                         onChange={disabled ? () => {}: handleChange}
+                        value={value}
                     />
                 );
             case 'textarea':
@@ -40,21 +43,31 @@ const Form:FC<Props> = ({ label, required, name, type, hasError, disabled, handl
                         name={name}
                         placeholder={label}
                         onChange={disabled ? () => {}: handleChange}
+                        value={value}
                     />
                 );
             case 'checkbox':
                 return (
                     <>
-                        <input type="checkbox" className={s.checkbox} onChange={handleChange} name={name}/>
+                        <input 
+                            type="checkbox" 
+                            className={s.checkbox} 
+                            onChange={handleChange} 
+                            name={name}
+                            checked={isChecked}
+                        />
                         <span className={s.checkmark}></span>
                     </>
                 );
             case 'select':
                 return (
-                    <Select handleChange={e => {
-                        e.type = 'category';
-                        handleChange(e);
-                    }}/>
+                    <Select 
+                        value={value}
+                        handleChange={e => {
+                            e.type = 'category';
+                            handleChange(e);
+                        }}
+                    />
                 )
             default:
                 return null
@@ -72,7 +85,7 @@ const Form:FC<Props> = ({ label, required, name, type, hasError, disabled, handl
             {hasError 
             && (
                 <div className="text-left" style={{ color: 'red' }}>
-                    <span className="capitalize">{ !errorMessage && name} </span> 
+                    <span className="capitalize">{ !errorMessage && label} </span> 
                     {errorMessage || 'tidak boleh kosong'} 
                 </div>
             )}            

@@ -8,19 +8,26 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function Select({ handleChange }) {
+export default function Select({ handleChange, value }) {
   
   useEffect(() => {
       async function fetchData() {
           const categories = await listCategory();
           setCategoryList(categories);
           setLoading(false);
+          if (value) {
+            if (Array.isArray(categories) && categories.length > 0) {
+              const currentCategory = categories.find(c => c.id === value);
+              setSelected({ ...currentCategory });
+            }
+          }
       };
 
       fetchData();
   }, []);
+  
   const [categoryList, setCategoryList] = useState<ListCategoryResponse[] | ListCategoryResponse>(null);
-  const [selected, setSelected] = useState<Record<string, string>>({});
+  const [selected, setSelected] = useState<any>();
   const [loading, setLoading] = useState<boolean>(true);
 
   return (

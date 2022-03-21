@@ -3,7 +3,7 @@ import { TodoListResponse } from "services/types/todos";
 
 const listTodo = async (): Promise<TodoListResponse> => {
     try {
-        const data = await fetch('http://localhost:8080/todo?page_id=1&page_size=5', {
+        const data = await fetch('http://localhost:8080/todo?page_id=1&page_size=20', {
             method: 'GET',
             ...headers
         });

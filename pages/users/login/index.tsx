@@ -14,8 +14,8 @@ const LoginPathImage = '/images/login.png';
 export default function Login() {
     const router = useRouter();
     const [payload, setPayload] = useState<LoginRequest>({
-        email: 'maslownr@gmail.com',
-        password: '@Aa89930548'
+        email: '',
+        password: ''
     });
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [errorList, setErrorList] = useState<string[]>(null);

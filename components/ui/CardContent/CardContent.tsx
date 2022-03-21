@@ -5,15 +5,26 @@ import { CalendarIcon, PencilIcon } from '@heroicons/react/solid';
 import { generateColor, normalizeDate, splitCharacter } from 'util/helper';
 import { Todo } from 'services/types/todos';
 import Image from 'next/image';
+import Link from 'next/link';
+import { markAsCompleteTodo } from 'services/todos';
 
 interface Props {
     contents: Todo[];
     isToday: Boolean;
-}
+    success?: Function;
+    section: 'today' | 'done' | 'upcoming'
+};
 
-const CardContent: FC<Props> = ({ contents: data, isToday }) => {      
+const CardContent: FC<Props> = ({ contents: data, isToday, success, section }) => {          
     const NoTodoImage = '/images/no-todo.png'; 
 
+    const handleMarkAsComplete = async (todoID: number) => {
+        const resp = await markAsCompleteTodo(todoID);
+        if (resp.error) {
+            return success(false);
+        }
+        return success(true);
+    };
     return (
         <>
             {
@@ -29,7 +40,9 @@ const CardContent: FC<Props> = ({ contents: data, isToday }) => {
                                             {splitCharacter(item.title, 20, true)}
                                         </span>
                                         <button className={s.titleIcon}>
-                                            <PencilIcon  className="w-4 h-4"/>
+                                            <Link href={`/todo?action=edit&todoID=${item.id}`}>
+                                                <PencilIcon className="w-4 h-4"/>
+                                            </Link>
                                         </button>                                    
                                     </div>
                                     <div className={s.dueDate}>                        
@@ -46,10 +59,17 @@ const CardContent: FC<Props> = ({ contents: data, isToday }) => {
                                                 {splitCharacter(item.content, 35, false)}
                                             </p>
                                         </div>
-                                        <div className={s.checkboxWrapper}>
-                                            <input type="checkbox" className={s.checkbox}/>
-                                            <span className={s.checkmark}></span>
-                                        </div>
+                                        {section === 'today' && (
+                                            <div className={s.checkboxWrapper}>
+                                                <input 
+                                                    type="checkbox" 
+                                                    className={s.checkbox}
+                                                    checked={item.status}
+                                                    onChange={() => handleMarkAsComplete(item.id)}
+                                                />
+                                                <span className={s.checkmark}></span>
+                                            </div>
+                                        )}
                                     </div>
                                 </Container>
                             </div>

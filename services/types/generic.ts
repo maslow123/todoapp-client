@@ -1,3 +1,3 @@
 export interface GenericErrorResponse {
-    error: string;
+    error?: string;
 };
